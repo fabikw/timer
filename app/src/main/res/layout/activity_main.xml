@@ -108,7 +108,7 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:typeface="serif"
-        android:textSize="80dp" />
+        android:textSize="80sp" />
 
     <fragment
         android:layout_width="match_parent"
