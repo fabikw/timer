@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -33,6 +34,7 @@ public class WeatherFragment extends Fragment {
     TextView currentTemperatureField;
     TextView weatherIcon;
     Timer timer;
+
 
     Handler handler;
 

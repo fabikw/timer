@@ -7,16 +7,16 @@
     android:id="@+id/container"
     tools:context="com.example.fabian.timer.WeatherFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:layout_weight="0.5">
 
 
 
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:baselineAligned="true">
 
         <TableRow
@@ -99,6 +99,16 @@
 
     </TableLayout>
 
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/chronoText"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:typeface="serif"
+        android:textSize="120dp" />
 
     <fragment
         android:layout_width="match_parent"
