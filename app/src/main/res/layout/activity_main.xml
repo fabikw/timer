@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    tools:context="com.example.fabian.timer.WeatherFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:baselineAligned="true">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:baselineAligned="true"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:layout_width="80sp"
+                android:layout_height="80sp"
+                app:srcCompat="@drawable/timer1"
+                android:id="@+id/imageButton1"
+                android:onClick="createTimer_1"
+                android:scaleType="fitCenter"
+                android:padding="5sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/timer_1"
+                android:textSize="35sp"
+                android:baselineAligned="true"
+                android:fontFamily="sans-serif" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:baselineAligned="true"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:layout_width="80sp"
+                android:layout_height="80sp"
+                app:srcCompat="@drawable/timer5"
+                android:id="@+id/imageButton5"
+                android:onClick="createTimer_5"
+                android:scaleType="fitCenter"
+                android:padding="5sp"  />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/timer_5"
+                android:textSize="35sp"
+                android:baselineAligned="true"
+                android:fontFamily="sans-serif" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:baselineAligned="true"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:layout_width="80sp"
+                app:srcCompat="@drawable/timer10"
+                android:id="@+id/imageButton"
+                android:onClick="createTimer_10"
+                android:adjustViewBounds="true"
+                android:visibility="visible"
+                android:layout_height="80sp"
+                android:scaleType="fitCenter"
+                android:padding="5sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/timer_10"
+                android:textSize="35sp"
+                android:baselineAligned="true"
+                android:fontFamily="sans-serif" />
+
+        </TableRow>
+
+
+    </TableLayout>
+
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:name="com.example.fabian.timer.WeatherFragment"
+        android:id="@+id/fragment"
+        tools:layout="@layout/fragment_weather" />
+
+</LinearLayout>
