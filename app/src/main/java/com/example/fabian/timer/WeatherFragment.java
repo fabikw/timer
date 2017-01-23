@@ -95,22 +95,22 @@ public class WeatherFragment extends Fragment {
 
     private void renderWeather(JSONObject json){
         try {
-            cityField.setText(json.getString("name").toUpperCase(Locale.US) +
+            cityField.setText(json.getJSONObject("city").getString("name").toUpperCase(Locale.US) +
                     ", " +
-                    json.getJSONObject("sys").getString("country"));
+                    json.getJSONObject("city").getString("country"));
 
-            JSONObject details = json.getJSONArray("weather").getJSONObject(0);
-            JSONObject main = json.getJSONObject("main");
+            JSONObject main = (JSONObject)json.getJSONArray("list").get(0);
+            JSONObject details = main.getJSONArray("weather").getJSONObject(0);
             detailsField.setText(
                     details.getString("description").toUpperCase(Locale.US) +
                             "\n" + "Humidity: " + main.getString("humidity") + "%" +
                             "\n" + "Pressure: " + main.getString("pressure") + " hPa");
-
+            JSONObject temp = main.getJSONObject("temp");
             currentTemperatureField.setText(
-                    String.format("%.2f", main.getDouble("temp"))+ " ℃");
+                    String.format("%.2f", main.getDouble("day"))+ " ℃");
 
             DateFormat df = DateFormat.getDateTimeInstance();
-            String updatedOn = df.format(new Date(json.getLong("dt")*1000));
+            String updatedOn = df.format(new Date(main.getLong("dt")*1000));
             updatedField.setText("Last update: " + updatedOn);
 
             setWeatherIcon(details.getInt("id"),
