@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * Created by Fabian on 11-Jan-17.
@@ -15,17 +16,19 @@ import java.net.URL;
 
 public class RemoteFetch {
 
-    private static final String OPEN_WEATHER_MAP_API =
-            "http://api.openweathermap.org/data/2.5/weather?q=%s&units=metric";
+    private static final String YAHOO_API =
+            "https://query.yahooapis.com/v1/public/yql?q=%s&format=json";
+
+    public static final String query = "select * where woeid in (select woeid from geo.places(1) where text = \"%s\")";
 
     public static JSONObject getJSON(Context context, String city){
         try {
-            URL url = new URL(String.format(OPEN_WEATHER_MAP_API, city));
-            HttpURLConnection connection =
-                    (HttpURLConnection)url.openConnection();
+            String q = String.format(query,city);
+            URL url = new URL(String.format(YAHOO_API, q));
+            URLConnection connection =
+                    (URLConnection)url.openConnection();
 
-            connection.addRequestProperty("x-api-key",
-                    context.getString(R.string.open_weather_maps_app_id));
+            //connection.addRequestProperty("x-api-key", context.getString(R.string.open_weather_maps_app_id));
 
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(connection.getInputStream()));
