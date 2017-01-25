@@ -19,7 +19,9 @@ import android.widget.Toast;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -59,7 +61,7 @@ public class WeatherFragment extends Fragment {
                 SharedPreferences prefs = ((MainActivity)getActivity()).getPreferences(Activity.MODE_PRIVATE);
                 updateWeatherData(prefs.getString("city","Cambridge,US"));
             }
-        }, 0, 60*1000);
+        }, 0, 600*1000);
         return rootView;
     }
 
@@ -95,27 +97,30 @@ public class WeatherFragment extends Fragment {
 
     private void renderWeather(JSONObject json){
         try {
-            cityField.setText(json.getJSONObject("city").getString("name").toUpperCase(Locale.US) +
+            JSONObject channel = json.getJSONObject("query").getJSONObject("results").getJSONObject("channel");
+            cityField.setText(channel.getJSONObject("location").getString("city") +
                     ", " +
-                    json.getJSONObject("city").getString("country"));
-
-            JSONObject main = (JSONObject)json.getJSONArray("list").get(0);
-            JSONObject details = main.getJSONArray("weather").getJSONObject(0);
+                    channel.getJSONObject("location").getString("region") +
+                    ", "+
+                    channel.getJSONObject("location").getString("country"));
+            JSONObject item = channel.getJSONObject("item");
             detailsField.setText(
-                    details.getString("description").toUpperCase(Locale.US) +
-                            "\n" + "Humidity: " + main.getString("humidity") + "%" +
-                            "\n" + "Pressure: " + main.getString("pressure") + " hPa");
-            JSONObject temp = main.getJSONObject("temp");
+                    item.getJSONObject("condition").getString("text").toUpperCase(Locale.US) +
+                            "\n" + "Humidity: " + channel.getJSONObject("atmosphere").getString("humidity") + "%" +
+                            "\n" + "Pressure: " + channel.getJSONObject("atmosphere").getString("pressure") + channel.getJSONObject("units").getString("pressure"));
             currentTemperatureField.setText(
-                    String.format("%.2f", main.getDouble("day"))+ " ℃");
+                    String.format("%d", (int)item.getJSONObject("condition").getDouble("temp"))+ channel.getJSONObject("units").getString("temperature"));
 
             DateFormat df = DateFormat.getDateTimeInstance();
-            String updatedOn = df.format(new Date(main.getLong("dt")*1000));
-            updatedField.setText("Last update: " + updatedOn);
+            DateFormat d = new SimpleDateFormat("E, dd MMM yyyy hh:mm aa z");
+            d.setLenient(true);
+            String s = item.getString("pubDate");
+            String updatedOn = df.format(d.parse(s));
+            updatedField.setText("Last update: " + s);
 
-            setWeatherIcon(details.getInt("id"),
+            /*setWeatherIcon(details.getInt("id"),
                     json.getJSONObject("sys").getLong("sunrise") * 1000,
-                    json.getJSONObject("sys").getLong("sunset") * 1000);
+                    json.getJSONObject("sys").getLong("sunset") * 1000);*/
 
         }catch(Exception e){
             Log.e("SimpleWeather", "One or more fields not found in the JSON data");
