@@ -34,6 +34,8 @@ public class WeatherFragment extends Fragment {
     TextView updatedField;
     TextView detailsField;
     TextView currentTemperatureField;
+    TextView highTemperatureField;
+    TextView lowTemperatureField;
     TextView weatherIcon;
     Timer timer;
 
@@ -52,7 +54,10 @@ public class WeatherFragment extends Fragment {
         updatedField = (TextView)rootView.findViewById(R.id.updated_field);
         detailsField = (TextView)rootView.findViewById(R.id.details_field);
         currentTemperatureField = (TextView)rootView.findViewById(R.id.current_temperature_field);
+        highTemperatureField = (TextView)rootView.findViewById(R.id.high_temperature_field);
+        lowTemperatureField = (TextView)rootView.findViewById(R.id.low_temperature_field);
         weatherIcon = (TextView)rootView.findViewById(R.id.weather_icon);
+
 
         weatherIcon.setTypeface(weatherFont);
         timer = new Timer();
@@ -68,7 +73,7 @@ public class WeatherFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        weatherFont = Typeface.createFromAsset(getActivity().getAssets(), "fonts/weather.ttf");
+        weatherFont = Typeface.createFromAsset(getActivity().getAssets(), "fonts/weathericons-regular-webfont.ttf");
         updateWeatherData(new CityPreference(getActivity()).getCity());
     }
 
@@ -97,6 +102,10 @@ public class WeatherFragment extends Fragment {
 
     private void renderWeather(JSONObject json){
         try {
+            if (json.getJSONObject("query").getInt("count") == 0){
+                Toast.makeText(getActivity(), getActivity().getString(R.string.data_not_found), Toast.LENGTH_LONG).show();
+                throw new Exception();
+            }
             JSONObject channel = json.getJSONObject("query").getJSONObject("results").getJSONObject("channel");
             cityField.setText(channel.getJSONObject("location").getString("city") +
                     ", " +
@@ -110,6 +119,9 @@ public class WeatherFragment extends Fragment {
                             "\n" + "Pressure: " + channel.getJSONObject("atmosphere").getString("pressure") + channel.getJSONObject("units").getString("pressure"));
             currentTemperatureField.setText(
                     String.format("%d", (int)item.getJSONObject("condition").getDouble("temp"))+ channel.getJSONObject("units").getString("temperature"));
+            JSONObject fore = item.getJSONArray("forecast").getJSONObject(0);
+            highTemperatureField.setText("High: "+String.format("%d", (int)fore.getDouble("high")) + channel.getJSONObject("units").getString("temperature"));
+            lowTemperatureField.setText("Low: "+String.format("%d", (int)fore.getDouble("low")) + channel.getJSONObject("units").getString("temperature"));
 
             DateFormat df = DateFormat.getDateTimeInstance();
             DateFormat d = new SimpleDateFormat("E, dd MMM yyyy hh:mm aa z");
@@ -121,6 +133,7 @@ public class WeatherFragment extends Fragment {
             /*setWeatherIcon(details.getInt("id"),
                     json.getJSONObject("sys").getLong("sunrise") * 1000,
                     json.getJSONObject("sys").getLong("sunset") * 1000);*/
+            weatherIcon.setText(WeatherConditionCodes.fromInt(item.getJSONObject("condition").getInt("code")).toString());
 
         }catch(Exception e){
             Log.e("SimpleWeather", "One or more fields not found in the JSON data");
