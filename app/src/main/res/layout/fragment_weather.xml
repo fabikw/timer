@@ -37,7 +37,7 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="70sp"
+        android:textSize="0sp"
         />
 
     <TextView
