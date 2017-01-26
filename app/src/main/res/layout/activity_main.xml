@@ -12,7 +12,13 @@
     tools:layout_weight="0.5">
 
 
-
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:name="com.example.fabian.timer.WeatherFragment"
+        android:id="@+id/fragment"
+        tools:layout="@layout/fragment_weather" />
 
     <TableLayout
         android:layout_width="match_parent"
@@ -109,13 +115,5 @@
         android:gravity="center"
         android:typeface="serif"
         android:textSize="80sp" />
-
-    <fragment
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:name="com.example.fabian.timer.WeatherFragment"
-        android:id="@+id/fragment"
-        tools:layout="@layout/fragment_weather" />
 
 </LinearLayout>
