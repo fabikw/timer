@@ -1,0 +1,3 @@
+[submodule "yahoo-weather-java-api"]
+	path = yahoo-weather-java-api
+	url = https://github.com/fedy2/yahoo-weather-java-api.git
