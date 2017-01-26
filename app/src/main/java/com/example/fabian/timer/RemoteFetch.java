@@ -5,9 +5,12 @@ import android.content.Context;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 
 /**
  * Created by Fabian on 11-Jan-17.
