@@ -19,7 +19,9 @@ import android.widget.Toast;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -32,6 +34,8 @@ public class WeatherFragment extends Fragment {
     TextView updatedField;
     TextView detailsField;
     TextView currentTemperatureField;
+    TextView highTemperatureField;
+    TextView lowTemperatureField;
     TextView weatherIcon;
     Timer timer;
 
@@ -50,7 +54,10 @@ public class WeatherFragment extends Fragment {
         updatedField = (TextView)rootView.findViewById(R.id.updated_field);
         detailsField = (TextView)rootView.findViewById(R.id.details_field);
         currentTemperatureField = (TextView)rootView.findViewById(R.id.current_temperature_field);
+        highTemperatureField = (TextView)rootView.findViewById(R.id.high_temperature_field);
+        lowTemperatureField = (TextView)rootView.findViewById(R.id.low_temperature_field);
         weatherIcon = (TextView)rootView.findViewById(R.id.weather_icon);
+
 
         weatherIcon.setTypeface(weatherFont);
         timer = new Timer();
@@ -59,7 +66,7 @@ public class WeatherFragment extends Fragment {
                 SharedPreferences prefs = ((MainActivity)getActivity()).getPreferences(Activity.MODE_PRIVATE);
                 updateWeatherData(prefs.getString("city","Cambridge,US"));
             }
-        }, 0, 60*1000);
+        }, 0, 600*1000);
         return rootView;
     }
 
