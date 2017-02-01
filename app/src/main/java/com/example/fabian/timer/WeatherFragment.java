@@ -16,12 +16,23 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hamweather.aeris.communication.AerisEngine;
+import com.hamweather.aeris.communication.loaders.ObservationsTask;
+import com.hamweather.aeris.communication.loaders.ObservationsTaskCallback;
+import com.hamweather.aeris.communication.parameter.PlaceParameter;
+import com.hamweather.aeris.model.AerisError;
+import com.hamweather.aeris.model.AerisLocation;
+import com.hamweather.aeris.model.Observation;
+import com.hamweather.aeris.model.Place;
+import com.hamweather.aeris.response.ObservationResponse;
+
 import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -39,6 +50,7 @@ public class WeatherFragment extends Fragment {
     TextView weatherIcon;
     Timer timer;
 
+    ObservationsTask task;
 
     Handler handler;
 
@@ -60,13 +72,13 @@ public class WeatherFragment extends Fragment {
 
 
         weatherIcon.setTypeface(weatherFont);
+        updateWeatherData(new CityPreference(getActivity()).getCity());
         timer = new Timer();
         timer.schedule( new TimerTask() {
             public void run() {
-                SharedPreferences prefs = ((MainActivity)getActivity()).getPreferences(Activity.MODE_PRIVATE);
-                updateWeatherData(prefs.getString("city","Cambridge,US"));
+                updateWeatherData(new CityPreference(getActivity()).getCity());
             }
-        }, 0, 600*1000);
+        }, 300*1000, 600*1000);
         return rootView;
     }
 
@@ -74,11 +86,49 @@ public class WeatherFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         weatherFont = Typeface.createFromAsset(getActivity().getAssets(), "fonts/weather.ttf");
-        updateWeatherData(new CityPreference(getActivity()).getCity());
+        AerisEngine.initWithKeys(getActivity().getString(R.string.aeris_client_id), getActivity().getString(R.string.aeris_client_secret), getActivity());
+
+        task = new ObservationsTask(getActivity(),
+                new ObservationsTaskCallback() {
+
+                    @Override
+                    public void onObservationsFailed(AerisError error) {
+                        System.out.println("ERROR");
+                    }
+
+                    @Override
+                    public void onObservationsLoaded(List responses) {
+                        renderWeather(responses);
+                    }
+
+                });
+
+
     }
 
     private void updateWeatherData(final String city){
-        new Thread(){
+        PlaceParameter place = new PlaceParameter(city);
+
+        task = new ObservationsTask(getActivity(),
+                new ObservationsTaskCallback() {
+
+                    @Override
+                    public void onObservationsFailed(AerisError error) {
+                        System.out.println("ERROR");
+                    }
+
+                    @Override
+                    public void onObservationsLoaded(List responses) {
+                        renderWeather(responses);
+                    }
+
+                });
+        try {
+            task.requestClosest(place);
+        }catch(Exception e){
+            task.onFail(new AerisError());
+        }
+        /*new Thread(){
             public void run(){
                 final JSONObject json = RemoteFetch.getJSON(getActivity(), city);
                 if(json == null){
@@ -92,16 +142,30 @@ public class WeatherFragment extends Fragment {
                 } else {
                     handler.post(new Runnable(){
                         public void run(){
-                            renderWeather(json);
+                            renderWeather();
                         }
                     });
                 }
             }
-        }.start();
+        }.start();*/
     }
 
-    private void renderWeather(JSONObject json){
-        try {
+    private void renderWeather(List responses){
+        responses.toString();
+        ObservationResponse obb = (ObservationResponse)responses.get(0);
+        Observation ob = obb.getObservation();
+        /*Observation ob = ob.getObservation();*/
+        Place loc = obb.getPlace();
+        cityField.setText(loc.name.toUpperCase(Locale.US)+", "+ (loc.country.equals("us") ? loc.state.toUpperCase(Locale.US) : loc.country.toUpperCase(Locale.US)));
+        detailsField.setText(ob.weather.toUpperCase(Locale.US) +
+                "\n" + "Humidity:" + ob.humidity + "%" +
+                "\n" + "Pressure:" + ob.pressureIN + " in");
+        currentTemperatureField.setText(ob.tempF+" F");
+        DateFormat df = DateFormat.getDateTimeInstance();
+        updatedField.setText("Last update: "+df.format(new Date(ob.timestamp.longValue()*1000)));
+        highTemperatureField.setText(ob.tempMax6hrF+" F");
+        lowTemperatureField.setText(ob.tempMin6hrF+" F");
+        /*try {
             cityField.setText(json.getString("name").toUpperCase(Locale.US) +
                     ", " +
                     json.getJSONObject("sys").getString("country"));
@@ -126,7 +190,7 @@ public class WeatherFragment extends Fragment {
 
         }catch(Exception e){
             Log.e("SimpleWeather", "One or more fields not found in the JSON data");
-        }
+        }*/
     }
 
     private void setWeatherIcon(int actualId, long sunrise, long sunset){
@@ -159,6 +223,13 @@ public class WeatherFragment extends Fragment {
     }
 
     public void changeCity(String city){
+
+        //timer.cancel();
         updateWeatherData(city);
+        /*timer.schedule( new TimerTask() {
+            public void run() {
+                updateWeatherData(new CityPreference(getActivity()).getCity());
+            }
+        }, 300*1000, 600*1000);*/
     }
 }
