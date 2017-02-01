@@ -60,13 +60,13 @@ public class WeatherFragment extends Fragment {
 
 
         weatherIcon.setTypeface(weatherFont);
+        updateWeatherData(new CityPreference(getActivity()).getCity());
         timer = new Timer();
         timer.schedule( new TimerTask() {
             public void run() {
-                SharedPreferences prefs = ((MainActivity)getActivity()).getPreferences(Activity.MODE_PRIVATE);
-                updateWeatherData(prefs.getString("city","Cambridge,US"));
+                updateWeatherData(new CityPreference(getActivity()).getCity());
             }
-        }, 0, 600*1000);
+        }, 300*1000, 600*1000);
         return rootView;
     }
 
@@ -159,6 +159,13 @@ public class WeatherFragment extends Fragment {
     }
 
     public void changeCity(String city){
+
+        //timer.cancel();
         updateWeatherData(city);
+        /*timer.schedule( new TimerTask() {
+            public void run() {
+                updateWeatherData(new CityPreference(getActivity()).getCity());
+            }
+        }, 300*1000, 600*1000);*/
     }
 }
