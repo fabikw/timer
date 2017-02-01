@@ -18,5 +18,14 @@
             </intent-filter>
         </activity>
     </application>
+    <!-- Internet is required to make calls to the Aeris API -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Aeris Library uses the network state to determine if network is availabe to make calls  -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Google maps requries this now with tiles -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- (Optional If you want location services to be used as well) -->
+    <uses-permission android:name="android.permission.ACCESS_COURSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 </manifest>
