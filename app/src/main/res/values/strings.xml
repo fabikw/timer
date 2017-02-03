@@ -11,6 +11,8 @@
 
     <!-- Put your own APP ID here -->
     <string name="open_weather_maps_app_id">***REMOVED***</string>
+    <string name="aeris_client_id">***REMOVED***</string>
+    <string name="aeris_client_secret">***REMOVED***</string>
 
     <string name="weather_sunny">&#xf00d;</string>
     <string name="weather_clear_night">&#xf02e;</string>

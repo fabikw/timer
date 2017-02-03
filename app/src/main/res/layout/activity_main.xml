@@ -15,9 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:name="com.example.fabian.timer.WeatherFragmentOpen"
+        android:name="com.example.fabian.timer.WeatherFragmentAeris"
         android:id="@+id/fragment"
-        tools:layout="@layout/fragment_weather_open" />
+        tools:layout="@layout/fragment_weather_aeris" />
 
     <TableLayout
         android:layout_width="match_parent"
