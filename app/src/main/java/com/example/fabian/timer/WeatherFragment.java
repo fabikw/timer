@@ -1,23 +1,15 @@
 package com.example.fabian.timer;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.Icon;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hamweather.aeris.communication.Action;
 import com.hamweather.aeris.communication.AerisCallback;
@@ -26,18 +18,14 @@ import com.hamweather.aeris.communication.AerisEngine;
 import com.hamweather.aeris.communication.AerisRequest;
 import com.hamweather.aeris.communication.Endpoint;
 import com.hamweather.aeris.communication.EndpointType;
-import com.hamweather.aeris.communication.fields.ForecastsFields;
-import com.hamweather.aeris.communication.fields.ObservationFields;
 import com.hamweather.aeris.communication.loaders.ForecastsTask;
 import com.hamweather.aeris.communication.loaders.ForecastsTaskCallback;
 import com.hamweather.aeris.communication.loaders.ObservationsTask;
 import com.hamweather.aeris.communication.loaders.ObservationsTaskCallback;
-import com.hamweather.aeris.communication.parameter.FilterParameter;
 import com.hamweather.aeris.communication.parameter.LimitParameter;
 import com.hamweather.aeris.communication.parameter.ParameterBuilder;
 import com.hamweather.aeris.communication.parameter.PlaceParameter;
 import com.hamweather.aeris.model.AerisError;
-import com.hamweather.aeris.model.AerisLocation;
 import com.hamweather.aeris.model.AerisResponse;
 import com.hamweather.aeris.model.ForecastPeriod;
 import com.hamweather.aeris.model.Observation;
@@ -45,12 +33,8 @@ import com.hamweather.aeris.model.Place;
 import com.hamweather.aeris.response.ForecastsResponse;
 import com.hamweather.aeris.response.ObservationResponse;
 
-import org.json.JSONObject;
-
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
@@ -68,9 +52,8 @@ public class WeatherFragment extends Fragment {
     TextView lowTemperatureField;
     //TextView weatherIcon;
     ImageView weatherIconImg;
-    Timer timer;
+    Timer timer, timer2;
 
-    ForecastsTask task;
 
     Handler handler;
 
@@ -94,12 +77,19 @@ public class WeatherFragment extends Fragment {
 
         //weatherIcon.setTypeface(weatherFont);
         updateWeatherData(new CityPreference(getActivity()).getCity());
+        updateHighLow(new CityPreference(getActivity()).getCity());
         timer = new Timer();
         timer.schedule( new TimerTask() {
             public void run() {
                 updateWeatherData(new CityPreference(getActivity()).getCity());
             }
         }, 300*1000, 600*1000);
+        timer2 = new Timer();
+        timer2.schedule(new TimerTask() {
+            public void run() {
+                updateHighLow(new CityPreference(getActivity()).getCity());
+            }
+        },3600*1000,7200*1000);
         return rootView;
     }
 
@@ -109,19 +99,37 @@ public class WeatherFragment extends Fragment {
         weatherFont = Typeface.createFromAsset(getActivity().getAssets(), "fonts/weather.ttf");
         AerisEngine.initWithKeys(getActivity().getString(R.string.aeris_client_id), getActivity().getString(R.string.aeris_client_secret), getActivity());
 
-
-
-
     }
 
     private void updateWeatherData(final String city){
         PlaceParameter place = new PlaceParameter(city);
-        ParameterBuilder builder = new ParameterBuilder()
-                .withFilter("6hr")
-                .withLimit(1)
-                ;
 
-        task = new ForecastsTask(getActivity(),
+        ObservationsTask task = new ObservationsTask(getActivity(),
+                new ObservationsTaskCallback() {
+
+                    @Override
+                    public void onObservationsFailed(AerisError error) {
+                        System.out.println("ERROR");
+                    }
+
+                    @Override
+                    public void onObservationsLoaded(List responses) {
+                        renderWeather(responses);
+                    }
+
+                });
+        try {
+            task.requestClosest(place);
+        }catch(Exception e){
+            task.onFail(new AerisError());
+        }
+    }
+
+    private void updateHighLow(final String city){
+        PlaceParameter place = new PlaceParameter(city);
+        ParameterBuilder builder = new ParameterBuilder().withFilter("day").withLimit(1);
+
+        ForecastsTask task = new ForecastsTask(getActivity(),
                 new ForecastsTaskCallback() {
 
                     @Override
@@ -131,7 +139,7 @@ public class WeatherFragment extends Fragment {
 
                     @Override
                     public void onForecastsLoaded(List responses) {
-                        renderWeather(responses);
+                        renderHighLow(responses);
                     }
 
                 });
@@ -140,31 +148,18 @@ public class WeatherFragment extends Fragment {
         }catch(Exception e){
             task.onFail(new AerisError());
         }
-        /*new Thread(){
-            public void run(){
-                final JSONObject json = RemoteFetch.getJSON(getActivity(), city);
-                if(json == null){
-                    handler.post(new Runnable(){
-                        public void run(){
-                            Toast.makeText(getActivity(),
-                                    getActivity().getString(R.string.place_not_found),
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
-                } else {
-                    handler.post(new Runnable(){
-                        public void run(){
-                            renderWeather();
-                        }
-                    });
-                }
-            }
-        }.start();*/
+    }
+
+    private void renderHighLow(List responses){
+        ForecastsResponse obb = (ForecastsResponse)responses.get(0);
+        ForecastPeriod ob = obb.getPeriod(0);
+        highTemperatureField.setText(ob.maxTempF+" F");
+        lowTemperatureField.setText(ob.minTempF+" F");
     }
 
     private void renderWeather(List responses){
-        ForecastsResponse obb = (ForecastsResponse)responses.get(0);
-        ForecastPeriod ob = obb.getPeriod(0);
+        ObservationResponse obb = (ObservationResponse)responses.get(0);
+        Observation ob = obb.getObservation();
         AerisRequest request = new AerisRequest(new Endpoint(EndpointType.PLACES), Action.CLOSEST,new PlaceParameter(obb.getLocation()), new LimitParameter(1));
         AerisCommunicationTask t = new AerisCommunicationTask(getActivity(),
                 new AerisCallback() {
@@ -184,70 +179,18 @@ public class WeatherFragment extends Fragment {
         currentTemperatureField.setText(ob.tempF+" F");
         DateFormat df = DateFormat.getDateTimeInstance();
         updatedField.setText("Last update: "+df.format(new Date(ob.timestamp.longValue()*1000)));
-        highTemperatureField.setText(ob.maxTempF+" F");
-        lowTemperatureField.setText(ob.minTempF+" F");
+        //highTemperatureField.setText(ob.maxTempF+" F");
+        //lowTemperatureField.setText(ob.minTempF+" F");
         int id = getActivity().getResources().getIdentifier(ob.icon.split("\\.")[0],"drawable",getContext().getPackageName());
         if (id != 0) {
             Drawable d = getResources().getDrawable(id);
             weatherIconImg.setImageDrawable(d);
         }
 
-        /*try {
-            cityField.setText(json.getString("name").toUpperCase(Locale.US) +
-                    ", " +
-                    json.getJSONObject("sys").getString("country"));
 
-            JSONObject details = json.getJSONArray("weather").getJSONObject(0);
-            JSONObject main = json.getJSONObject("main");
-            detailsField.setText(
-                    details.getString("description").toUpperCase(Locale.US) +
-                            "\n" + "Humidity: " + main.getString("humidity") + "%" +
-                            "\n" + "Pressure: " + main.getString("pressure") + " hPa");
-
-            currentTemperatureField.setText(
-                    String.format("%.2f", main.getDouble("temp"))+ " ℃");
-
-            DateFormat df = DateFormat.getDateTimeInstance();
-            String updatedOn = df.format(new Date(json.getLong("dt")*1000));
-            updatedField.setText("Last update: " + updatedOn);
-
-            setWeatherIcon(details.getInt("id"),
-                    json.getJSONObject("sys").getLong("sunrise") * 1000,
-                    json.getJSONObject("sys").getLong("sunset") * 1000);
-
-        }catch(Exception e){
-            Log.e("SimpleWeather", "One or more fields not found in the JSON data");
-        }*/
     }
 
-    /*private void setWeatherIcon(int actualId, long sunrise, long sunset){
-        int id = actualId / 100;
-        String icon = "";
-        if(actualId == 800){
-            long currentTime = new Date().getTime();
-            if(currentTime>=sunrise && currentTime<sunset) {
-                icon = getActivity().getString(R.string.weather_sunny);
-            } else {
-                icon = getActivity().getString(R.string.weather_clear_night);
-            }
-        } else {
-            switch(id) {
-                case 2 : icon = getActivity().getString(R.string.weather_thunder);
-                    break;
-                case 3 : icon = getActivity().getString(R.string.weather_drizzle);
-                    break;
-                case 7 : icon = getActivity().getString(R.string.weather_foggy);
-                    break;
-                case 8 : icon = getActivity().getString(R.string.weather_cloudy);
-                    break;
-                case 6 : icon = getActivity().getString(R.string.weather_snowy);
-                    break;
-                case 5 : icon = getActivity().getString(R.string.weather_rainy);
-                    break;
-            }
-        }
-        weatherIcon.setText(icon);
-    }*/
+
 
     public void changeCity(String city){
 
