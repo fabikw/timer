@@ -11,7 +11,7 @@ index 0000000..c8a2e53
 +    android:layout_width="match_parent"
 +    android:layout_height="match_parent"
 +    android:orientation="horizontal"
-+    tools:context="com.example.fabian.timer.WeatherFragment"
++    tools:context="com.example.fabian.timer.WeatherFragmentAeris"
 +    android:paddingBottom="@dimen/activity_vertical_margin"
 +    android:paddingLeft="@dimen/activity_horizontal_margin"
 +    android:paddingRight="@dimen/activity_horizontal_margin"
