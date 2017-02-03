@@ -41,7 +41,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class WeatherFragmentAeris extends Fragment {
+public class WeatherFragmentAeris extends WeatherFragment {
     Typeface weatherFont;
 
     TextView cityField;
