@@ -5,7 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
-    tools:context="com.example.fabian.timer.WeatherFragment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -16,9 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:name="com.example.fabian.timer.WeatherFragment"
+        android:name="com.example.fabian.timer.WeatherFragmentOpen"
         android:id="@+id/fragment"
-        tools:layout="@layout/fragment_weather" />
+        tools:layout="@layout/fragment_weather_open" />
 
     <TableLayout
         android:layout_width="match_parent"
