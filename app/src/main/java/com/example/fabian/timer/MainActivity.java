@@ -1,9 +1,7 @@
 package com.example.fabian.timer;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -15,18 +13,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import static android.provider.AlarmClock.ACTION_SET_TIMER;
-import static android.provider.AlarmClock.EXTRA_LENGTH;
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
-import static android.provider.AlarmClock.EXTRA_SKIP_UI;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 //        if (savedInstanceState == null) {
 //            getSupportFragmentManager().beginTransaction()
-//                    .add(R.id.container, new WeatherFragment())
+//                    .add(R.id.container, new WeatherFragmentOpen())
 //                    .commit();
 //        }
         ch = (TextView)findViewById(R.id.chronoText);
