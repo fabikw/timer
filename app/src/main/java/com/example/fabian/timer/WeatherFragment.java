@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -13,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,7 +66,8 @@ public class WeatherFragment extends Fragment {
     TextView currentTemperatureField;
     TextView highTemperatureField;
     TextView lowTemperatureField;
-    TextView weatherIcon;
+    //TextView weatherIcon;
+    ImageView weatherIconImg;
     Timer timer;
 
     ForecastsTask task;
@@ -84,10 +88,11 @@ public class WeatherFragment extends Fragment {
         currentTemperatureField = (TextView)rootView.findViewById(R.id.current_temperature_field);
         highTemperatureField = (TextView)rootView.findViewById(R.id.high_temperature_field);
         lowTemperatureField = (TextView)rootView.findViewById(R.id.low_temperature_field);
-        weatherIcon = (TextView)rootView.findViewById(R.id.weather_icon);
+        //weatherIcon = (TextView)rootView.findViewById(R.id.weather_icon);
+        weatherIconImg = (ImageView)rootView.findViewById(R.id.weather_icon_img);
 
 
-        weatherIcon.setTypeface(weatherFont);
+        //weatherIcon.setTypeface(weatherFont);
         updateWeatherData(new CityPreference(getActivity()).getCity());
         timer = new Timer();
         timer.schedule( new TimerTask() {
@@ -112,7 +117,7 @@ public class WeatherFragment extends Fragment {
     private void updateWeatherData(final String city){
         PlaceParameter place = new PlaceParameter(city);
         ParameterBuilder builder = new ParameterBuilder()
-                .withFilter("12hr")
+                .withFilter("6hr")
                 .withLimit(1)
                 ;
 
@@ -181,6 +186,12 @@ public class WeatherFragment extends Fragment {
         updatedField.setText("Last update: "+df.format(new Date(ob.timestamp.longValue()*1000)));
         highTemperatureField.setText(ob.maxTempF+" F");
         lowTemperatureField.setText(ob.minTempF+" F");
+        int id = getActivity().getResources().getIdentifier(ob.icon.split("\\.")[0],"drawable",getContext().getPackageName());
+        if (id != 0) {
+            Drawable d = getResources().getDrawable(id);
+            weatherIconImg.setImageDrawable(d);
+        }
+
         /*try {
             cityField.setText(json.getString("name").toUpperCase(Locale.US) +
                     ", " +
@@ -209,7 +220,7 @@ public class WeatherFragment extends Fragment {
         }*/
     }
 
-    private void setWeatherIcon(int actualId, long sunrise, long sunset){
+    /*private void setWeatherIcon(int actualId, long sunrise, long sunset){
         int id = actualId / 100;
         String icon = "";
         if(actualId == 800){
@@ -236,7 +247,7 @@ public class WeatherFragment extends Fragment {
             }
         }
         weatherIcon.setText(icon);
-    }
+    }*/
 
     public void changeCity(String city){
 
