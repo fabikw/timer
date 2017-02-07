@@ -13,6 +13,7 @@ import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -57,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createTimer(int seconds){
+        ch.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
         if (count != null){
             count.cancel();
         }
@@ -70,9 +77,18 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
                 ch.setText("done!");
                 try {
-                    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                    Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+                    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+                    final Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                     r.play();
+                    ch.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            if (r.isPlaying()) {
+                                r.stop();
+                            }
+                            return true;
+                        }
+                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
