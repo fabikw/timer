@@ -46,19 +46,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createTimer(int seconds){
-//        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-//        String currentDateandTime = sdf.format(new Date());
-//        Intent intent = new Intent(ACTION_SET_TIMER)
-//                .putExtra(EXTRA_MESSAGE, "Timer started at "+currentDateandTime)
-//                .putExtra(EXTRA_LENGTH, seconds)
-//                .putExtra(EXTRA_SKIP_UI, true);
-//        Context context = getApplicationContext();
-//        CharSequence text = "Timer started for "+(seconds/60)+(seconds == 60 ? " minute.": " minutes.");
-//        int duration = Toast.LENGTH_SHORT;
-//
-//        Toast toast = Toast.makeText(context, text, duration);
-//        startActivity(intent);
-//        toast.show();
         if (count != null){
             count.cancel();
         }
@@ -102,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setTitle("Change city");
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setText(new CityPreference(this).getCity());
         builder.setView(input);
         builder.setPositiveButton("Go", new DialogInterface.OnClickListener() {
             @Override
