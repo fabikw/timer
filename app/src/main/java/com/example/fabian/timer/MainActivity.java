@@ -89,7 +89,9 @@ public class MainActivity extends AppCompatActivity {
         builder.setTitle("Change city");
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.setText(new CityPreference(this).getCity());
+        String city = new CityPreference(this).getCity();
+        input.setText(city);
+        input.setSelection(0,city.length());
         builder.setView(input);
         builder.setPositiveButton("Go", new DialogInterface.OnClickListener() {
             @Override

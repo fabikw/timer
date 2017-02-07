@@ -196,6 +196,7 @@ public class WeatherFragmentAeris extends WeatherFragment {
 
         //timer.cancel();
         updateWeatherData(city);
+        updateHighLow(city);
         /*timer.schedule( new TimerTask() {
             public void run() {
                 updateWeatherData(new CityPreference(getActivity()).getCity());
