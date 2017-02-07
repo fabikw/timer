@@ -1,6 +1,7 @@
 package com.example.fabian.timer;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -13,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -93,13 +95,18 @@ public class MainActivity extends AppCompatActivity {
         input.setText(city);
         input.setSelection(0,city.length());
         builder.setView(input);
+        final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         builder.setPositiveButton("Go", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 changeCity(input.getText().toString());
+                imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
             }
         });
         builder.show();
+        input.requestFocus();
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+
     }
 
     public void changeCity(String city){
