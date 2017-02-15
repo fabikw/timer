@@ -49,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
         createTimer(60);
     }
 
+    public void createTimer_8(View view) {
+        createTimer(480);
+    }
+
     public void createTimer_5(View view){
         createTimer(300);
     }
