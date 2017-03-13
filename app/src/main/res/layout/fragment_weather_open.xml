@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="#FF0099CC">
+    android:background="#FF9678c8">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
