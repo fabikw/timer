@@ -65,6 +65,11 @@ public class MainActivity extends AppCompatActivity {
         ch.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                if (count!= null){
+                    count.cancel();
+                    ch.setText("canceled");
+                    return true;
+                }
                 return false;
             }
         });

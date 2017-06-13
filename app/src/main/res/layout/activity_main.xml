@@ -43,7 +43,7 @@
                 android:baselineAligned="true"
                 android:fontFamily="sans-serif"
                 android:text="@string/timer_5"
-                android:textSize="35sp" />
+                android:textSize="45sp" />
 
         </TableRow>
 
@@ -68,7 +68,7 @@
                 android:baselineAligned="true"
                 android:fontFamily="sans-serif"
                 android:text="@string/timer_8"
-                android:textSize="35sp" />
+                android:textSize="45sp" />
 
         </TableRow>
 
@@ -95,7 +95,7 @@
                 android:baselineAligned="true"
                 android:fontFamily="sans-serif"
                 android:text="@string/timer_10"
-                android:textSize="35sp" />
+                android:textSize="45sp" />
 
         </TableRow>
 

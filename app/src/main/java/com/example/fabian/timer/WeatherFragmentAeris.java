@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -90,6 +91,15 @@ public class WeatherFragmentAeris extends WeatherFragment {
                 updateHighLow(new CityPreference(getActivity()).getCity());
             }
         },3600*1000,7200*1000);
+        weatherIconImg.setOnTouchListener(new View.OnTouchListener(){
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                updateWeatherData(new CityPreference(getActivity()).getCity());
+                updateHighLow(new CityPreference(getActivity()).getCity());
+                return true;
+            }
+        });
         return rootView;
     }
 
