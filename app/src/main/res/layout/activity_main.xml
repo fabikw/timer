@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
@@ -13,104 +12,119 @@
 
     <FrameLayout
         android:id="@+id/fragment"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:visibility="visible"
+        app:layout_constraintVertical_chainStyle="spread"
+        tools:layout_editor_absoluteY="2dp"
+        tools:layout_editor_absoluteX="0dp" />
 
-    <TableLayout
-        android:layout_width="match_parent"
+
+    <ImageButton
+        android:id="@+id/imageButton5"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:onClick="createTimer_5"
+        android:padding="5sp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/timer5"
+
+        app:layout_constraintRight_toLeftOf="@+id/text5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/imageButton8"
+        app:layout_constraintTop_toBottomOf="@+id/fragment"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintHorizontal_bias="1.0" />
+
+    <TextView
+        android:id="@+id/text5"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:baselineAligned="true">
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:baselineAligned="true"
-            android:gravity="center_vertical">
-
-            <ImageButton
-                android:id="@+id/imageButton5"
-                android:layout_width="50sp"
-                android:layout_height="50sp"
-                android:onClick="createTimer_5"
-                android:padding="5sp"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/timer5" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:baselineAligned="true"
-                android:fontFamily="sans-serif"
-                android:text="@string/timer_5"
-                android:textSize="45sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:baselineAligned="true"
-            android:gravity="center_vertical">
-
-            <ImageButton
-                android:id="@+id/imageButton8"
-                android:layout_width="50sp"
-                android:layout_height="50sp"
-                android:onClick="createTimer_8"
-                android:padding="5sp"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/timer8" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:baselineAligned="true"
-                android:fontFamily="sans-serif"
-                android:text="@string/timer_8"
-                android:textSize="45sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:baselineAligned="true"
-            android:gravity="center_vertical">
-
-            <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="50sp"
-                android:layout_height="50sp"
-                android:adjustViewBounds="true"
-                android:onClick="createTimer_10"
-                android:padding="5sp"
-                android:scaleType="fitCenter"
-                android:visibility="visible"
-                app:srcCompat="@drawable/timer10" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:baselineAligned="true"
-                android:fontFamily="sans-serif"
-                android:text="@string/timer_10"
-                android:textSize="45sp" />
-
-        </TableRow>
+        android:baselineAligned="true"
+        android:fontFamily="sans-serif"
+        android:text="@string/timer_5"
+        android:textSize="45sp"
+        app:layout_constraintRight_toRightOf="parent"
+     />
 
 
-    </TableLayout>
+    <ImageButton
+        android:id="@+id/imageButton8"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:onClick="createTimer_8"
+        android:padding="5sp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/timer8"
+        tools:layout_conversion_absoluteX="0dp"
+        tools:layout_conversion_absoluteY="54dp"
+        tools:layout_conversion_absoluteWidth="50dp"
+        tools:layout_conversion_absoluteHeight="50dp"
+        tools:layout_editor_absoluteY="54dp"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:layout_width="318dp"
+        android:layout_height="wrap_content"
+        android:baselineAligned="true"
+        android:fontFamily="sans-serif"
+        android:text="@string/timer_8"
+        android:textSize="45sp"
+        tools:layout_conversion_absoluteX="50dp"
+        tools:layout_conversion_absoluteY="53dp"
+        tools:layout_conversion_absoluteWidth="224dp"
+        tools:layout_conversion_absoluteHeight="53dp"
+        tools:layout_editor_absoluteY="53dp"
+        tools:layout_editor_absoluteX="58dp" />
+
+
+    <ImageButton
+        android:id="@+id/imageButton10"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:adjustViewBounds="true"
+        android:onClick="createTimer_10"
+        android:padding="5sp"
+        android:scaleType="fitCenter"
+        android:visibility="visible"
+        app:srcCompat="@drawable/timer10"
+        tools:layout_conversion_absoluteHeight="50dp"
+        tools:layout_conversion_absoluteWidth="50dp"
+        tools:layout_conversion_absoluteX="0dp"
+        tools:layout_conversion_absoluteY="107dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="107dp" />
+
+    <TextView
+        android:layout_width="318dp"
+        android:layout_height="wrap_content"
+        android:baselineAligned="true"
+        android:fontFamily="sans-serif"
+        android:text="@string/timer_10"
+        android:textSize="45sp"
+        tools:layout_conversion_absoluteX="50dp"
+        tools:layout_conversion_absoluteY="106dp"
+        tools:layout_conversion_absoluteWidth="224dp"
+        tools:layout_conversion_absoluteHeight="53dp"
+        tools:layout_editor_absoluteY="106dp"
+        tools:layout_editor_absoluteX="58dp" />
 
 
     <TextView
         android:id="@+id/chronoText"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:gravity="center"
         android:textSize="80sp"
-        android:typeface="serif" />
+        android:typeface="serif"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/imageButton5"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton5"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/imageButton5" />
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
