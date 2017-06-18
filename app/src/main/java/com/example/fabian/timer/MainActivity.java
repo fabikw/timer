@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     CountDownTimer count = null;
     TextView ch;
+    Ringtone r = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createTimer(int seconds){
+        if (r != null && r.isPlaying()){
+            r.stop();
+        }
         ch.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -87,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 ch.setText("done!");
                 try {
                     Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-                    final Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+                    r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                     r.play();
                     new CountDownTimer(1000*120,1000) { //Stops the sound after 2 minutes.
                         @Override
