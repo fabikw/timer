@@ -89,19 +89,6 @@ public class MainActivity extends AppCompatActivity {
                     Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
                     final Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                     r.play();
-                    new CountDownTimer(1000*120,1000) { //Stops the sound after 2 minutes.
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-
-                        }
-
-                        @Override
-                        public void onFinish() {
-                            if (r.isPlaying()){
-                                r.stop();
-                            }
-                        }
-                    }.start();
                     ch.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
