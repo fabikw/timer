@@ -47,7 +47,7 @@
             app:layout_constraintDimensionRatio="1:1"
             android:layout_marginStart="8dp"
 
-            android:onClick="createTimer_5"
+            android:onClick="createTimer"
             android:padding="5sp"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toTopOf="@+id/imageButtonB"
@@ -80,7 +80,7 @@
             app:layout_constraintDimensionRatio="1:1"
             android:layout_marginStart="8dp"
 
-            android:onClick="createTimer_10"
+            android:onClick="createTimer"
             android:padding="5sp"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toTopOf="@+id/imageButtonC"
@@ -114,7 +114,7 @@
             app:layout_constraintDimensionRatio="1:1"
             android:layout_marginStart="8dp"
 
-            android:onClick="createTimer_20"
+            android:onClick="createTimer"
             android:padding="5sp"
             android:scaleType="fitCenter"
             android:visibility="visible"

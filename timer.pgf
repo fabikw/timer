@@ -1,7 +1,7 @@
 \begin{tikzpicture}
 \draw[ball color=red] (0,0) circle (3);
 \draw[ball color=gray!30] (0,0) circle (2.5);
-\draw[green, fill=green!50] (0,0) -- (90:2.3) arc (90:-30:2.3);
+\draw[green, fill=green!50] (0,0) -- (90:2.3) arc (90:-24:2.3);
 \foreach \t in {0,90,180,270}
 	\draw[fill] (\t:1.8) -- +(\t-10:0.5) arc (\t-10:\t+10:0.5);
 \foreach \t in {30, 60, 120, 150, 210, 240, 300, 330}

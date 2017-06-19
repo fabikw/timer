@@ -3,11 +3,13 @@ package com.example.fabian.timer;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.Menu;
@@ -17,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.fragment, new WeatherFragmentAeris()).commit();
         }
         ch = (TextView)findViewById(R.id.chronoText);
+        PreferenceManager.setDefaultValues(this,R.xml.pref_general, false);
+        setValues();
     }
 
     public void createTimer_1(View view){
@@ -64,6 +69,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void createTimer_10(View view){
         createTimer(600);
+    }
+
+    public void createTimer(View view){
+        int[] values = new ValuesPreference(this).getCValues();
+        switch (view.getId()){
+            case R.id.imageButtonA:
+                createTimer(values[0]*60);
+                break;
+            case R.id.imageButtonB:
+                createTimer(values[1]*60);
+                break;
+            case R.id.imageButtonC:
+                createTimer(values[2]*60);
+                break;
+        }
     }
 
     public void createTimer(int seconds){
@@ -128,10 +148,33 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.change_city){
-            showInputDialog();
+        switch (item.getItemId()){
+            case R.id.change_city:
+                showInputDialog();
+                return true;
+            case R.id.change_values:
+                Intent i = new Intent(this,TimersPrefs.class);
+                startActivityForResult(i,1);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return false;
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1){
+                setValues();
+        }
+    }
+
+    public void setValues(){
+        int[] values = new ValuesPreference(this).getCValues();
+        ((ImageButton) findViewById(R.id.imageButtonA)).setImageResource(getResources().getIdentifier("timer"+values[0],"drawable",getPackageName()));
+        ((ImageButton) findViewById(R.id.imageButtonB)).setImageResource(getResources().getIdentifier("timer"+values[1],"drawable",getPackageName()));
+        ((ImageButton) findViewById(R.id.imageButtonC)).setImageResource(getResources().getIdentifier("timer"+values[2],"drawable",getPackageName()));
+        ((TextView) findViewById(R.id.textA)).setText(values[0] + " minutes");
+        ((TextView) findViewById(R.id.textB)).setText(values[1] + " minutes");
+        ((TextView) findViewById(R.id.textC)).setText(values[2] + " minutes");
     }
 
     public boolean onCreateOptionsMenu(Menu my_menu) {
