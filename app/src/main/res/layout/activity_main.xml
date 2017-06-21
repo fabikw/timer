@@ -13,154 +13,166 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/cont"
+        app:layout_constraintBottom_toTopOf="@+id/cont2"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintLeft_creator="1" />
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/cont"
+        android:id="@+id/cont2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment"
-        app:layout_constraintBottom_toTopOf="@+id/chronoText"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintLeft_creator="1">
+        >
 
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cont"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/chronoText"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1">
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="66dp"
+                tools:layout_editor_absoluteX="66dp"
+                tools:layout_editor_absoluteY="81dp" />
+
+            <ImageButton
+                android:id="@+id/imageButtonA"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="8dp"
+
+                android:onClick="createTimer"
+                android:padding="5sp"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toTopOf="@+id/imageButtonB"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="parent"
+                app:srcCompat="@drawable/timer5"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/textA"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:baselineAligned="true"
+                android:fontFamily="sans-serif"
+                android:gravity="center_vertical"
+                android:text="@string/timer_5"
+                android:textSize="45sp"
+                app:layout_constraintLeft_toLeftOf="@+id/guideline"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/imageButtonB"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="8dp"
+
+                android:onClick="createTimer"
+                android:padding="5sp"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toTopOf="@+id/imageButtonC"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/imageButtonA"
+                app:srcCompat="@drawable/timer10"
+                tools:ignore="ContentDescription" />
+
+
+            <TextView
+                android:id="@+id/textB"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:baselineAligned="true"
+                android:fontFamily="sans-serif"
+                android:gravity="center_vertical"
+                android:text="@string/timer_10"
+                android:textSize="45sp"
+                app:layout_constraintLeft_toLeftOf="@+id/guideline"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textA" />
+
+            <ImageButton
+                android:id="@+id/imageButtonC"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="8dp"
+                android:onClick="createTimer"
+
+                android:padding="5sp"
+                android:scaleType="fitCenter"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/imageButtonB"
+                app:srcCompat="@drawable/timer20"
+                tools:ignore="ContentDescription" />
+
+
+            <TextView
+                android:id="@+id/textC"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center_vertical"
+                android:text="@string/timer_20"
+                android:textSize="45sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="@+id/guideline"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textB" />
+
+        </android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/chronoText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="66dp" />
-
-        <ImageButton
-            android:id="@+id/imageButtonA"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            app:layout_constraintDimensionRatio="1:1"
-            android:layout_marginStart="8dp"
-
-            android:onClick="createTimer"
-            android:padding="5sp"
-            android:scaleType="fitCenter"
-            app:layout_constraintBottom_toTopOf="@+id/imageButtonB"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="parent"
-            app:srcCompat="@drawable/timer5"
-            tools:ignore="ContentDescription"
-            android:layout_marginBottom="4dp"
-            app:layout_constraintRight_toLeftOf="@+id/guideline"/>
-
-        <TextView
-            android:id="@+id/textA"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/button_size"
-            android:layout_marginBottom="4dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:baselineAligned="true"
-            android:fontFamily="sans-serif"
-            android:gravity="center_vertical"
-            android:text="@string/timer_5"
-            android:textSize="45sp"
-            app:layout_constraintLeft_toRightOf="@+id/guideline"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/imageButtonB"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            app:layout_constraintDimensionRatio="1:1"
-            android:layout_marginStart="8dp"
-
-            android:onClick="createTimer"
-            android:padding="5sp"
-            android:scaleType="fitCenter"
-            app:layout_constraintBottom_toTopOf="@+id/imageButtonC"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageButtonA"
-            app:layout_constraintRight_toLeftOf="@+id/guideline"
-            app:srcCompat="@drawable/timer10"
-            tools:ignore="ContentDescription"
-            android:layout_marginBottom="4dp" />
-
-
-        <TextView
-            android:id="@+id/textB"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/button_size"
-            android:layout_marginBottom="4dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:baselineAligned="true"
-            android:fontFamily="sans-serif"
-            android:gravity="center_vertical"
-            android:text="@string/timer_10"
-            android:textSize="45sp"
-            app:layout_constraintLeft_toRightOf="@+id/guideline"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textA" />
-
-        <ImageButton
-            android:id="@+id/imageButtonC"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            app:layout_constraintDimensionRatio="1:1"
-            android:layout_marginStart="8dp"
-
-            android:onClick="createTimer"
-            android:padding="5sp"
-            android:scaleType="fitCenter"
-            android:visibility="visible"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageButtonB"
-            app:layout_constraintRight_toLeftOf="@+id/guideline"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:textSize="80sp"
+            android:typeface="serif"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:srcCompat="@drawable/timer20"
-            tools:ignore="ContentDescription" />
-
-
-        <TextView
-            android:id="@+id/textC"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/button_size"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:fontFamily="sans-serif"
-            android:gravity="center_vertical"
-            android:text="@string/timer_20"
-            android:textSize="45sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/guideline"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textB" />
+            app:layout_constraintTop_toBottomOf="@+id/cont"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1" />
 
     </android.support.constraint.ConstraintLayout>
 
 
-
-
-    <TextView
-        android:id="@+id/chronoText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="80sp"
-        android:typeface="serif"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/cont"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintLeft_creator="1" />
 
 </android.support.constraint.ConstraintLayout>
