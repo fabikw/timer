@@ -82,11 +82,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        if (count != null){
+            count.cancel();
+        }
         if (timeLeft != null){
             outState.putLong("Time Remaining", timeLeft);
         }else{
             outState.remove("Time Remaining");
         }
+    }
+
+    public void onStop(){
+        if (count != null){
+            count.cancel();
+            count = null;
+        }
+        super.onStop();
     }
 
     public void createTimer(View view){
