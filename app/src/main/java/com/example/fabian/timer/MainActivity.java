@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     CountDownTimer count = null;
     TextView ch;
     Ringtone r = null;
+    Long timeLeft = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
+        ch = (TextView)findViewById(R.id.chronoText);
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey("Time Remaining")){
+                createTimer((int)savedInstanceState.getLong("Time Remaining"));
+            }
+            return;
+        }
         if (findViewById(R.id.fragment) != null) {
 
             // However, if we're being restored from a previous state,
@@ -46,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment, new WeatherFragmentAeris()).commit();
         }
-        ch = (TextView)findViewById(R.id.chronoText);
+
         PreferenceManager.setDefaultValues(this,R.xml.pref_general, false);
         setValues();
     }
@@ -69,6 +77,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void createTimer_10(View view){
         createTimer(600);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (timeLeft != null){
+            outState.putLong("Time Remaining", timeLeft);
+        }else{
+            outState.remove("Time Remaining");
+        }
     }
 
     public void createTimer(View view){
@@ -108,11 +126,13 @@ public class MainActivity extends AppCompatActivity {
 
             public void onTick(long millisUntilFinished) {
                 long sec = millisUntilFinished / 1000;
+                timeLeft = sec;
                 ch.setText(String.format("%02d:%02d",sec/60,sec%60));
             }
 
             public void onFinish() {
                 ch.setText("done!");
+                timeLeft = null;
                 try {
                     Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
                     r = RingtoneManager.getRingtone(getApplicationContext(), notification);
