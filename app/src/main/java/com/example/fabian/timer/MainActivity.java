@@ -21,6 +21,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Switch;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     TextView ch;
     Ringtone r = null;
     Long timeLeft = null;
+    Switch sw = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
         ch = (TextView)findViewById(R.id.chronoText);
+        sw = (Switch)findViewById(R.id.switch_alarm);
+        sw.setChecked(false);
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey("Time Remaining")){
                 createTimer((int)savedInstanceState.getLong("Time Remaining"));
@@ -148,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                     Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
                     r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                     r.play();
-                    new CountDownTimer(1000*120,1000) { //Stops the sound after 2 minutes.
+                    new CountDownTimer(1000*(sw.isChecked() ? 120 : 60),1000) { //Stops the sound after 1 or 2 minutes (depending on sw).
                         @Override
                         public void onTick(long millisUntilFinished) {
 

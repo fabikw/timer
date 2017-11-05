@@ -27,6 +27,7 @@
     <string name="place_not_found">Sorry, no weather data found.</string>
     <string name="data_not_found">Sorry, no weather data downloaded.</string>
     <string name="title_activity_change_timers">Select Timer Values</string>
+    <string name="long_alarm">Long alarm</string>
 
     <!-- Strings related to Settings -->
 
