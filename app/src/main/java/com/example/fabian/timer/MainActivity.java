@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             }
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment, new WeatherFragmentAeris()).commit();
+                    .add(R.id.fragment, new WeatherFragmentDarkSky()).commit();
         }
 
         PreferenceManager.setDefaultValues(this,R.xml.pref_general, false);
