@@ -117,6 +117,9 @@ public class MainActivity extends AppCompatActivity {
                 createTimer(values[2]*60);
                 break;
         }
+        WeatherFragment wf = (WeatherFragment)getSupportFragmentManager()
+                .findFragmentById(R.id.fragment);
+        wf.updateWeather();
     }
 
     public void createTimer(int seconds){
