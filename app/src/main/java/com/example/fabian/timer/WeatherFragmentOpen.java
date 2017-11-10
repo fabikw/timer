@@ -151,6 +151,11 @@ public class WeatherFragmentOpen extends WeatherFragment{
         weatherIcon.setText(icon);
     }
 
+    public void updateWeather(){
+        CityPreference cp = new CityPreference(getActivity());
+        updateWeatherData(cp.getCity());
+    }
+
     @Override
     public void changeCity(String city){
 
