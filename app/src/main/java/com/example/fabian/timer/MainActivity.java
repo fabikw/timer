@@ -245,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
     public void changeCity(String city){
         WeatherFragment wf = (WeatherFragment)getSupportFragmentManager()
                 .findFragmentById(R.id.fragment);
-        wf.changeCity(city);
         new CityPreference(this).setCity(city);
+        wf.changeCity(city);
     }
 }

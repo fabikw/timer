@@ -17,12 +17,12 @@ import java.net.URL;
 public class RemoteFetchDarkSky {
 
     private static final String DARK_SKY_API =
-            "https://api.darksky.net/forecast/%s/%s,%s";
+            "https://api.darksky.net/forecast/%s/%f,%f?exclude=minutely,hourly,alerts,flags";
 
     @Nullable
     public static JSONObject getJSON(Context context, double lat, double lon){
         try {
-            URL url = new URL(String.format(DARK_SKY_API, context.getString(R.string.darksky_client_secret)));
+            URL url = new URL(String.format(DARK_SKY_API, context.getString(R.string.darksky_client_secret), lat,lon));
             HttpURLConnection connection =
                     (HttpURLConnection)url.openConnection();
 
@@ -39,7 +39,7 @@ public class RemoteFetchDarkSky {
 
             // This value will be 404 if the request was not
             // successful
-            if(data.getInt("cod") != 200){
+            if(!data.has("currently")){
                 return null;
             }
 

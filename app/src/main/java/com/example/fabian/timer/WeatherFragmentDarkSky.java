@@ -44,6 +44,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -195,18 +196,24 @@ public class WeatherFragmentDarkSky extends WeatherFragment {
         }*/
 
         try {
-            cityField.setText(location(response.getDouble("latitude"), response.getDouble("longiture")));
+            cityField.setText(location(response.getDouble("latitude"), response.getDouble("longitude")));
             JSONObject currentWeather = response.getJSONObject("currently");
             detailsField.setText(currentWeather.getString("summary").toUpperCase() +
                     "\n" + "Humidity:" + (int)(100*currentWeather.getDouble("humidity")) + "%" +
-                    "\n" + "Pressure:" + currentWeather.getDouble("pressure") + " in");
-            currentTemperatureField.setText(currentWeather.getDouble("temperature")+" F");
+                    "\n" + "Pressure:" + (int)(0.02953*currentWeather.getDouble("pressure")) + " in");
+            currentTemperatureField.setText((int)currentWeather.getDouble("temperature")+" F");
             DateFormat df = DateFormat.getDateTimeInstance();
-            updatedField.setText("Last update: "+df.format(new Date(currentWeather.getLong("timestamp")*1000)));
-            JSONObject dailyData = response.getJSONObject("daily").getJSONArray("data").getJSONObject(0);
-            highTemperatureField.setText(dailyData.getDouble("temperatureMax")+" F");
-            lowTemperatureField.setText(dailyData.getDouble("temperatureMin")+" F");
-            int id = getActivity().getResources().getIdentifier(currentWeather.getString("icon"),"drawable",getContext().getPackageName());
+            updatedField.setText("Last update: "+df.format(new Date(currentWeather.getLong("time")*1000)));
+            if (response.has("daily")) {
+                try {
+                    JSONObject dailyData = response.getJSONObject("daily").getJSONArray("data").getJSONObject(0);
+                    highTemperatureField.setText((int)dailyData.getDouble("temperatureMax") + " F");
+                    lowTemperatureField.setText((int)dailyData.getDouble("temperatureMin") + " F");
+                } catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+            int id = getActivity().getResources().getIdentifier(currentWeather.getString("icon").replaceAll("-","_"),"drawable",getContext().getPackageName());
             if (id != 0) {
                 Drawable d = getResources().getDrawable(id);
                 weatherIconImg.setImageDrawable(d);

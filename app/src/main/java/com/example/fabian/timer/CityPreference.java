@@ -41,8 +41,8 @@ public class CityPreference {
             List<Address> addresses = geo.getFromLocationName(city, 1);
             if (addresses != null){
                 Address ad = addresses.get(0);
-                prefs.edit().putFloat("lat", (float)ad.getLatitude());
-                prefs.edit().putFloat("lon", (float)ad.getLongitude());
+                prefs.edit().putFloat("lat", (float)ad.getLatitude()).commit();
+                prefs.edit().putFloat("lon", (float)ad.getLongitude()).commit();
             }
         } catch (IOException e) {
             e.printStackTrace();
