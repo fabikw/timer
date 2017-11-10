@@ -227,6 +227,11 @@ public class WeatherFragmentDarkSky extends WeatherFragment {
 
     }
 
+    public void updateWeather(){
+        CityPreference cp = new CityPreference(getActivity());
+        updateWeatherData(cp.getLat(), cp.getLon());
+    }
+
 
 
     public void changeCity(String city){
