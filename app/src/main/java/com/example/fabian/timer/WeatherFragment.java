@@ -26,6 +26,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static java.lang.Math.max;
+
 /**
  * Created by fabian on 2/3/17.
  */
@@ -55,7 +57,7 @@ public class WeatherFragment extends Fragment {
     };
 
     long lastUpdated;
-    Timer timerUpdated;
+    Timer timerUpdated = null;
     private final DateFormat df = new SimpleDateFormat("HH : mm : ss");
 
 
@@ -88,6 +90,7 @@ public class WeatherFragment extends Fragment {
         });
 
 
+
         BroadcastReceiver br = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -106,6 +109,7 @@ public class WeatherFragment extends Fragment {
                 updateLastU();
             }
         }, 0, 60*1000);
+
 
 
         return rootView;
@@ -148,6 +152,15 @@ public class WeatherFragment extends Fragment {
             if (id != 0) {
                 Drawable d = getResources().getDrawable(id);
                 weatherIconImg.setImageDrawable(d);
+
+                if (timerUpdated != null) timerUpdated.cancel();
+                timerUpdated = new Timer();
+                timerUpdated.schedule( new TimerTask() {
+                    public void run() {
+                        updateLastU();
+                    }
+                },0 , 60*1000);
+
             }
         }catch(JSONException e){
             e.printStackTrace();
@@ -167,10 +180,11 @@ public class WeatherFragment extends Fragment {
 
 
     public String prettyPrintTimeDif(){
-        long now = System.currentTimeMillis();
-        long diff = now - lastUpdated;
-        int minutesAgo = (int)diff/60000;
-        String s = minutesAgo + " minutes ago";
+        long now = new Date().getTime();
+        long diff = max(0,now - lastUpdated);
+        int minutesAgo = (int)(diff/60000);
+
+        String s = minutesAgo + " minute(s) ago";
         return s;
 
     }
