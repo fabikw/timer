@@ -54,7 +54,8 @@ public class WeatherFragment extends Fragment {
         }
     };
 
-    private long lastUpdated;
+    long lastUpdated;
+    Timer timerUpdated;
     private final DateFormat df = new SimpleDateFormat("HH : mm : ss");
 
 
@@ -86,6 +87,7 @@ public class WeatherFragment extends Fragment {
             }
         });
 
+
         BroadcastReceiver br = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -97,6 +99,15 @@ public class WeatherFragment extends Fragment {
 
         IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
         getContext().registerReceiver(br, filter);
+
+        timerUpdated = new Timer();
+        timerUpdated.schedule( new TimerTask() {
+            public void run() {
+                updateLastU();
+            }
+        }, 0, 60*1000);
+
+
         return rootView;
     }
 
@@ -129,7 +140,7 @@ public class WeatherFragment extends Fragment {
                     "\n" + "Humidity:" + parsedData.getString("humidity") + "%" +
                     "\n" + "Pressure:" + parsedData.getString("pressure") + " in");
             currentTemperatureField.setText(parsedData.getString("currentT")+" F");
-            updatedField.setText("Last update: "+ parsedData.getString("lastU"));
+            //updatedField.setText("Last update: "+ parsedData.getString("lastU"));
             highTemperatureField.setText(parsedData.getString("highT") + " F");
             lowTemperatureField.setText(parsedData.getString("lowT") + " F");
 
@@ -146,11 +157,21 @@ public class WeatherFragment extends Fragment {
 
     }
 
+    void updateLastU(){
+        try{
+            updatedField.setText("Last update: "+ prettyPrintTimeDif());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
     public String prettyPrintTimeDif(){
-        long now = new Date().getTime();
+        long now = System.currentTimeMillis();
         long diff = now - lastUpdated;
-        return df.format(diff);
+        int minutesAgo = (int)diff/60000;
+        String s = minutesAgo + " minutes ago";
+        return s;
 
     }
 

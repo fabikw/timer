@@ -131,6 +131,7 @@ public class WeatherFragmentDarkSky extends WeatherFragment {
         try{
             DateFormat df = DateFormat.getDateTimeInstance();
             r.put("lastU", df.format(new Date(currentWeather.getLong("time")*1000)));
+            lastUpdated = currentWeather.getLong("time")*1000;
         }catch(JSONException e){
             r.put("lastU", "");
         }
