@@ -208,14 +208,4 @@ public class WeatherFragmentAeris extends WeatherFragment {
     }
 
 
-    public void changeCity(String city){
-
-        //timer.cancel();
-        updateWeather();
-        /*timer.schedule( new TimerTask() {
-            public void run() {
-                updateWeatherData(new CityPreference(getActivity()).getCity());
-            }
-        }, 300*1000, 600*1000);*/
-    }
 }

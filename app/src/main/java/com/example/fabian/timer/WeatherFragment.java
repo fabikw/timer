@@ -25,10 +25,12 @@ public class WeatherFragment extends Fragment {
     }
 
     public void changeCity(String city){
-
+        updateWeather();
     }
 
     public void updateWeather(){
 
     }
+
+
 }

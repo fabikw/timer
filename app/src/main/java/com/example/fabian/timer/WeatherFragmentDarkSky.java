@@ -233,20 +233,6 @@ public class WeatherFragmentDarkSky extends WeatherFragment {
     }
 
 
-
-    public void changeCity(String city){
-        CityPreference cp = new CityPreference(getActivity());
-
-        //timer.cancel();
-        updateWeatherData(cp.getLat(), cp.getLon());
-        //updateHighLow(city);
-        /*timer.schedule( new TimerTask() {
-            public void run() {
-                updateWeatherData(new CityPreference(getActivity()).getCity());
-            }
-        }, 300*1000, 600*1000);*/
-    }
-
     public String location(double lat, double lon) {
         try {
             List<Address> ads = new Geocoder(getActivity()).getFromLocation(lat,lon,1);

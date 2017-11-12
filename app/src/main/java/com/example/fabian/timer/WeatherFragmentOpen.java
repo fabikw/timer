@@ -155,16 +155,5 @@ public class WeatherFragmentOpen extends WeatherFragment{
         CityPreference cp = new CityPreference(getActivity());
         updateWeatherData(cp.getCity());
     }
-
-    @Override
-    public void changeCity(String city){
-
-        //timer.cancel();
-        updateWeatherData(city);
-        /*timer.schedule( new TimerTask() {
-            public void run() {
-                updateWeatherData(new CityPreference(getActivity()).getCity());
-            }
-        }, 300*1000, 600*1000);*/
-    }
+    
 }
