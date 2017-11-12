@@ -43,20 +43,10 @@ import java.util.TimerTask;
 
 
 public class WeatherFragmentAeris extends WeatherFragment {
-    Typeface weatherFont;
 
-    TextView cityField;
-    TextView updatedField;
-    TextView detailsField;
-    TextView currentTemperatureField;
-    TextView highTemperatureField;
-    TextView lowTemperatureField;
-    //TextView weatherIcon;
-    ImageView weatherIconImg;
-    Timer timer, timer2;
+    Timer timer2;
 
 
-    Handler handler;
 
     public WeatherFragmentAeris(){
         handler = new Handler();
@@ -65,20 +55,8 @@ public class WeatherFragmentAeris extends WeatherFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_weather_aeris, container, false);
-        cityField = (TextView)rootView.findViewById(R.id.city_field);
-        updatedField = (TextView)rootView.findViewById(R.id.updated_field);
-        detailsField = (TextView)rootView.findViewById(R.id.details_field);
-        currentTemperatureField = (TextView)rootView.findViewById(R.id.current_temperature_field);
-        highTemperatureField = (TextView)rootView.findViewById(R.id.high_temperature_field);
-        lowTemperatureField = (TextView)rootView.findViewById(R.id.low_temperature_field);
-        //weatherIcon = (TextView)rootView.findViewById(R.id.weather_icon);
-        weatherIconImg = (ImageView)rootView.findViewById(R.id.weather_icon_img);
-
-
-        //weatherIcon.setTypeface(weatherFont);
-        updateWeatherData(new CityPreference(getActivity()).getCity());
-        updateHighLow(new CityPreference(getActivity()).getCity());
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        timer.cancel();
         timer = new Timer();
         timer.schedule( new TimerTask() {
             public void run() {
@@ -100,13 +78,12 @@ public class WeatherFragmentAeris extends WeatherFragment {
                 return true;
             }
         });
-        return rootView;
+        return view;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        weatherFont = Typeface.createFromAsset(getActivity().getAssets(), "fonts/weather.ttf");
         AerisEngine.initWithKeys(getActivity().getString(R.string.aeris_client_id), getActivity().getString(R.string.aeris_client_secret), getActivity());
 
     }

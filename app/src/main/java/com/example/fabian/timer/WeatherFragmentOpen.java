@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
@@ -22,18 +23,7 @@ import java.util.TimerTask;
 
 public class WeatherFragmentOpen extends WeatherFragment{
     Typeface weatherFont;
-
-    TextView cityField;
-    TextView updatedField;
-    TextView detailsField;
-    TextView currentTemperatureField;
-    TextView highTemperatureField;
-    TextView lowTemperatureField;
     TextView weatherIcon;
-    Timer timer;
-
-
-    Handler handler;
 
     public WeatherFragmentOpen(){
         handler = new Handler();
@@ -42,24 +32,11 @@ public class WeatherFragmentOpen extends WeatherFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_weather_open, container, false);
-        cityField = (TextView)rootView.findViewById(R.id.city_field);
-        updatedField = (TextView)rootView.findViewById(R.id.updated_field);
-        detailsField = (TextView)rootView.findViewById(R.id.details_field);
-        currentTemperatureField = (TextView)rootView.findViewById(R.id.current_temperature_field);
-        highTemperatureField = (TextView)rootView.findViewById(R.id.high_temperature_field);
-        lowTemperatureField = (TextView)rootView.findViewById(R.id.low_temperature_field);
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+
         weatherIcon = (TextView)rootView.findViewById(R.id.weather_icon);
 
-
         weatherIcon.setTypeface(weatherFont);
-        updateWeatherData(new CityPreference(getActivity()).getCity());
-        timer = new Timer();
-        timer.schedule( new TimerTask() {
-            public void run() {
-                updateWeatherData(new CityPreference(getActivity()).getCity());
-            }
-        }, 300*1000, 600*1000);
         return rootView;
     }
 
@@ -93,7 +70,52 @@ public class WeatherFragmentOpen extends WeatherFragment{
         }.start();
     }
 
-    private void renderWeather(JSONObject json){
+    protected JSONObject parseResponse(JSONObject response) throws JSONException {
+        JSONObject r = new JSONObject();
+        try{
+            r.put("location", response.getString("location").toUpperCase() + "," + response.getJSONObject("sys").getString("country"));
+        }catch(JSONException e){
+            r.put("location","");
+        }
+        JSONObject details = response.getJSONArray("weather").getJSONObject(0);
+        JSONObject main = response.getJSONObject("main");
+        try{
+            r.put("summary", details.getString("description").toUpperCase());
+        }catch(JSONException e){
+            r.put("summary", "");
+        }
+        try{
+            r.put("humidity", "" + main.getString("humidity"));
+        }catch(JSONException e){
+            r.put("humidity", "");
+        }
+        try{
+            r.put("pressure", "" + (int)(0.02953*main.getDouble("pressure")));
+        }catch(JSONException e){
+            r.put("pressure", "");
+        }
+        try{
+            r.put("currentT", "" + (int)(main.getDouble("temp")*9.0/5+32));
+        }catch(JSONException e){
+            r.put("currentT", "");
+        }
+        try{
+            DateFormat df = DateFormat.getDateTimeInstance();
+            r.put("lastU", df.format(new Date(response.getLong("dt")*1000)));
+        }catch(JSONException e){
+            r.put("lastU", "");
+        }
+        r.put("highT", "");
+        r.put("lowT", "");
+        r.put("iconID",0);
+        setWeatherIcon(details.getInt("id"),
+                response.getJSONObject("sys").getLong("sunrise") * 1000,
+                response.getJSONObject("sys").getLong("sunset") * 1000);
+
+        return r;
+    }
+
+    /*protected void renderWeather(JSONObject json){
         try {
             cityField.setText(json.getString("name").toUpperCase(Locale.US) +
                     ", " +
@@ -113,14 +135,12 @@ public class WeatherFragmentOpen extends WeatherFragment{
             String updatedOn = df.format(new Date(json.getLong("dt")*1000));
             updatedField.setText("Last update: " + updatedOn);
 
-            setWeatherIcon(details.getInt("id"),
-                    json.getJSONObject("sys").getLong("sunrise") * 1000,
-                    json.getJSONObject("sys").getLong("sunset") * 1000);
+
 
         }catch(Exception e){
             Log.e("SimpleWeather", "One or more fields not found in the JSON data");
         }
-    }
+    }*/
 
     private void setWeatherIcon(int actualId, long sunrise, long sunset){
         int id = actualId / 100;
