@@ -22,11 +22,16 @@ import org.json.JSONObject;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by fabian on 2/3/17.
  */
 
 public class WeatherFragment extends Fragment {
+
 
 
     TextView cityField;
@@ -48,6 +53,10 @@ public class WeatherFragment extends Fragment {
             handler.postDelayed(this, 600*1000);
         }
     };
+
+    private long lastUpdated;
+    private final DateFormat df = new SimpleDateFormat("HH : mm : ss");
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -90,6 +99,8 @@ public class WeatherFragment extends Fragment {
         getContext().registerReceiver(br, filter);
         return rootView;
     }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -135,5 +146,12 @@ public class WeatherFragment extends Fragment {
 
     }
 
+
+    public String prettyPrintTimeDif(){
+        long now = new Date().getTime();
+        long diff = now - lastUpdated;
+        return df.format(diff);
+
+    }
 
 }
