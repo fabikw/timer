@@ -35,7 +35,15 @@ public class WeatherFragment extends Fragment {
     ImageView weatherIconImg;
     Timer timer;
 
-    Handler handler;
+    Handler handler = new Handler();
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            updateWeather();
+      /* and here comes the "trick" */
+            handler.postDelayed(this, 600*1000);
+        }
+    };
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -49,12 +57,13 @@ public class WeatherFragment extends Fragment {
         lowTemperatureField = (TextView)rootView.findViewById(R.id.low_temperature_field);
         weatherIconImg = (ImageView)rootView.findViewById(R.id.weather_icon_img);
         updateWeather();
-        timer = new Timer();
+        /*timer = new Timer();
         timer.schedule( new TimerTask() {
             public void run() {
                 updateWeather();
             }
-        }, 300*1000, 600*1000);
+        }, 300*1000, 600*1000);*/
+        handler.postDelayed(runnable,300*1000);
         weatherIconImg.setOnTouchListener(new View.OnTouchListener(){
 
             @Override
