@@ -1,5 +1,9 @@
 package com.example.fabian.timer;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -72,6 +76,18 @@ public class WeatherFragment extends Fragment {
                 return true;
             }
         });
+
+        BroadcastReceiver br = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
+                    updateWeather();
+                }
+            }
+        };
+
+        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+        getContext().registerReceiver(br, filter);
         return rootView;
     }
 
