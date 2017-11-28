@@ -1,0 +1,14 @@
+====v1.0=====
+* Features:
+ - Change cities (by any geocoding)
+ - Set three different timers (custom)
+ - Long or short alarm
+ - Cancel current timer or alarm
+ - Manual weather updates
+ - Weather update on setting timer or on Screen On
+
+* Issues:
+ - Timer not retained on Screen Off
+
+* TODO:
+ - Add time since last update
