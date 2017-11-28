@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/city_field"
         android:layout_centerHorizontal="true"
+        android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textSize="13sp" />
 
@@ -70,7 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/weather_icon"
         android:layout_centerHorizontal="true"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        />
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>
