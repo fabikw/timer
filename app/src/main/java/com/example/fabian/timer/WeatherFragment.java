@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,7 +46,7 @@ public class WeatherFragment extends Fragment {
     Timer timer;
 
     Handler handler = new Handler();
-    Runnable runnable = new Runnable() {
+    Runnable runnableUpdateWeather = new Runnable() {
         @Override
         public void run() {
             updateWeather();
@@ -56,8 +55,19 @@ public class WeatherFragment extends Fragment {
         }
     };
 
-    long lastUpdated;
-    Timer timerUpdated = null;
+    Runnable runnableLastUpdate = new Runnable() {
+        @Override
+        public void run() {
+            updateLastU();
+      /* and here comes the "trick" */
+            handler.postDelayed(this, 60*1000);
+        }
+    };
+
+    long lastUpdatedMillis;
+    String lastUpdatedString;
+
+
     private final DateFormat df = new SimpleDateFormat("HH : mm : ss");
 
 
@@ -73,13 +83,10 @@ public class WeatherFragment extends Fragment {
         lowTemperatureField = (TextView)rootView.findViewById(R.id.low_temperature_field);
         weatherIconImg = (ImageView)rootView.findViewById(R.id.weather_icon_img);
         updateWeather();
-        /*timer = new Timer();
-        timer.schedule( new TimerTask() {
-            public void run() {
-                updateWeather();
-            }
-        }, 300*1000, 600*1000);*/
-        handler.postDelayed(runnable,300*1000);
+
+
+        handler.postDelayed(runnableUpdateWeather,300*1000);
+        handler.postDelayed(runnableLastUpdate,1000);
         weatherIconImg.setOnTouchListener(new View.OnTouchListener(){
 
             @Override
@@ -102,14 +109,6 @@ public class WeatherFragment extends Fragment {
 
         IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
         getContext().registerReceiver(br, filter);
-
-        timerUpdated = new Timer();
-        timerUpdated.schedule( new TimerTask() {
-            public void run() {
-                updateLastU();
-            }
-        }, 0, 60*1000);
-
 
 
         return rootView;
@@ -145,22 +144,15 @@ public class WeatherFragment extends Fragment {
                     "\n" + "Pressure:" + parsedData.getString("pressure") + " in");
             currentTemperatureField.setText(parsedData.getString("currentT")+" F");
             //updatedField.setText("Last update: "+ parsedData.getString("lastU"));
+            lastUpdatedString = parsedData.getString("lastU");
             highTemperatureField.setText(parsedData.getString("highT") + " F");
             lowTemperatureField.setText(parsedData.getString("lowT") + " F");
 
+            updateLastU();
             int id = Integer.parseInt(parsedData.getString("iconID"));
             if (id != 0) {
                 Drawable d = getResources().getDrawable(id);
                 weatherIconImg.setImageDrawable(d);
-
-                if (timerUpdated != null) timerUpdated.cancel();
-                timerUpdated = new Timer();
-                timerUpdated.schedule( new TimerTask() {
-                    public void run() {
-                        updateLastU();
-                    }
-                },0 , 60*1000);
-
             }
         }catch(JSONException e){
             e.printStackTrace();
@@ -172,7 +164,7 @@ public class WeatherFragment extends Fragment {
 
     void updateLastU(){
         try{
-            updatedField.setText("Last update: "+ prettyPrintTimeDif());
+            updatedField.setText("Last update: "+ lastUpdatedString + "\n" + prettyPrintTimeDif());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -181,7 +173,7 @@ public class WeatherFragment extends Fragment {
 
     public String prettyPrintTimeDif(){
         long now = new Date().getTime();
-        long diff = max(0,now - lastUpdated);
+        long diff = max(0,now - lastUpdatedMillis);
         int minutesAgo = (int)(diff/60000);
 
         String s = minutesAgo + " minute(s) ago";

@@ -1,40 +1,10 @@
 package com.example.fabian.timer;
 
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.hamweather.aeris.communication.Action;
-import com.hamweather.aeris.communication.AerisCallback;
-import com.hamweather.aeris.communication.AerisCommunicationTask;
-import com.hamweather.aeris.communication.AerisEngine;
-import com.hamweather.aeris.communication.AerisRequest;
-import com.hamweather.aeris.communication.Endpoint;
-import com.hamweather.aeris.communication.EndpointType;
-import com.hamweather.aeris.communication.loaders.ForecastsTask;
-import com.hamweather.aeris.communication.loaders.ForecastsTaskCallback;
-import com.hamweather.aeris.communication.loaders.ObservationsTask;
-import com.hamweather.aeris.communication.loaders.ObservationsTaskCallback;
-import com.hamweather.aeris.communication.parameter.LimitParameter;
-import com.hamweather.aeris.communication.parameter.ParameterBuilder;
-import com.hamweather.aeris.communication.parameter.PlaceParameter;
-import com.hamweather.aeris.model.AerisError;
-import com.hamweather.aeris.model.AerisResponse;
-import com.hamweather.aeris.model.ForecastPeriod;
-import com.hamweather.aeris.model.Observation;
-import com.hamweather.aeris.model.Place;
-import com.hamweather.aeris.response.ForecastsResponse;
-import com.hamweather.aeris.response.ObservationResponse;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,10 +13,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class WeatherFragmentDarkSky extends WeatherFragment {
@@ -131,7 +97,7 @@ public class WeatherFragmentDarkSky extends WeatherFragment {
         try{
             DateFormat df = DateFormat.getDateTimeInstance();
             r.put("lastU", df.format(new Date(currentWeather.getLong("time")*1000)));
-            lastUpdated = currentWeather.getLong("time")*1000;
+            lastUpdatedMillis = currentWeather.getLong("time")*1000;
         }catch(JSONException e){
             r.put("lastU", "");
         }

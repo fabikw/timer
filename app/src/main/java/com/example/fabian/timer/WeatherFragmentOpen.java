@@ -102,6 +102,7 @@ public class WeatherFragmentOpen extends WeatherFragment{
         try{
             DateFormat df = DateFormat.getDateTimeInstance();
             r.put("lastU", df.format(new Date(response.getLong("dt")*1000)));
+            lastUpdatedMillis = response.getLong("dt")*1000;
         }catch(JSONException e){
             r.put("lastU", "");
         }
