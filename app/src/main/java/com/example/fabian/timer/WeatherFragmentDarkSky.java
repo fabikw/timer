@@ -106,9 +106,12 @@ public class WeatherFragmentDarkSky extends WeatherFragment {
                 JSONObject dailyData = response.getJSONObject("daily").getJSONArray("data").getJSONObject(0);
                 r.put("highT", "" + (int) dailyData.getDouble("temperatureMax"));
                 r.put("lowT", "" + (int) dailyData.getDouble("temperatureMin"));
+                r.put("precip", "" + (int)(100*dailyData.getDouble("precipProbability")));
+
             } catch (JSONException e) {
                 r.put("highT", "");
                 r.put("lowT", "");
+                r.put("precip", "");
             }
         }else{
             r.put("highT", "");

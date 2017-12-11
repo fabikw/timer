@@ -140,8 +140,8 @@ public class WeatherFragment extends Fragment {
             JSONObject parsedData = parseResponse(response);
             cityField.setText(parsedData.getString("location"));
             detailsField.setText(parsedData.getString("summary") +
-                    "\n" + "Humidity:" + parsedData.getString("humidity") + "%" +
-                    "\n" + "Pressure:" + parsedData.getString("pressure") + " in");
+                    "\n" + "Humidity: " + parsedData.getString("humidity") + "%" +
+                    "\n" + "Precipitation: " + parsedData.getString("precip") + "%");
             currentTemperatureField.setText(parsedData.getString("currentT")+" F");
             //updatedField.setText("Last update: "+ parsedData.getString("lastU"));
             lastUpdatedString = parsedData.getString("lastU");
