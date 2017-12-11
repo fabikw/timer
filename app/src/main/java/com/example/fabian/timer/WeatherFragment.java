@@ -141,7 +141,7 @@ public class WeatherFragment extends Fragment {
             cityField.setText(parsedData.getString("location"));
             detailsField.setText(parsedData.getString("summary") +
                     "\n" + "Humidity: " + parsedData.getString("humidity") + "%" +
-                    "\n" + "Precipitation: " + parsedData.getString("precip") + "%");
+                    "\n" + "Precipitation: " + parsedData.getString("precip") + "% "+ parsedData.getString("precipType"));
             currentTemperatureField.setText(parsedData.getString("currentT")+" F");
             //updatedField.setText("Last update: "+ parsedData.getString("lastU"));
             lastUpdatedString = parsedData.getString("lastU");

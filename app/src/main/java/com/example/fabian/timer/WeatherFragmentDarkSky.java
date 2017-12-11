@@ -107,6 +107,7 @@ public class WeatherFragmentDarkSky extends WeatherFragment {
                 r.put("highT", "" + (int) dailyData.getDouble("temperatureMax"));
                 r.put("lowT", "" + (int) dailyData.getDouble("temperatureMin"));
                 r.put("precip", "" + (int)(100*dailyData.getDouble("precipProbability")));
+                r.put("precipType", dailyData.getString("precipType"));
 
             } catch (JSONException e) {
                 r.put("highT", "");
