@@ -155,19 +155,21 @@ public class MainActivity extends AppCompatActivity {
                     Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
                     r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                     r.play();
-                    new CountDownTimer(1000*(sw.isChecked() ? 120 : 60),1000) { //Stops the sound after 1 or 2 minutes (depending on sw).
-                        @Override
-                        public void onTick(long millisUntilFinished) {
+                    if (!sw.isChecked()) {
+                        new CountDownTimer(1000 * 30, 1000) { //Stops the sound after 0.5 minutes (if short alarm)
+                            @Override
+                            public void onTick(long millisUntilFinished) {
 
-                        }
-
-                        @Override
-                        public void onFinish() {
-                            if (r.isPlaying()){
-                                r.stop();
                             }
-                        }
-                    }.start();
+
+                            @Override
+                            public void onFinish() {
+                                if (r.isPlaying()) {
+                                    r.stop();
+                                }
+                            }
+                        }.start();
+                    }
                     ch.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
