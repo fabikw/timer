@@ -1,5 +1,6 @@
 package com.example.fabian.timer;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.preference.DialogPreference;
@@ -8,6 +9,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 
 /**
@@ -21,7 +23,8 @@ public class NumberPickerPreference extends DialogPreference {
     // enable or disable the 'circular behavior'
     public static final boolean WRAP_SELECTOR_WHEEL = false;
 
-    private NumberPicker picker;
+    private NumberPicker pickerTens;
+    private NumberPicker pickerOnes;
     private int value;
 
     public NumberPickerPreference(Context context, AttributeSet attrs) {
@@ -32,17 +35,26 @@ public class NumberPickerPreference extends DialogPreference {
         super(context, attrs, defStyleAttr);
     }
 
+    @SuppressLint("WrongConstant")
     @Override
     protected View onCreateDialogView() {
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
+        FrameLayout.LayoutParams layoutParams1 = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.gravity = Gravity.CENTER;
+        layoutParams1.gravity = Gravity.CENTER;
+        FrameLayout.LayoutParams layoutParams2 = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams2.gravity = Gravity.CENTER;
 
-        picker = new NumberPicker(getContext());
-        picker.setLayoutParams(layoutParams);
+        pickerTens = new NumberPicker(getContext());
+        pickerOnes = new NumberPicker(getContext());
+        pickerTens.setLayoutParams(layoutParams1);
+        pickerOnes.setLayoutParams(layoutParams2);
 
-        FrameLayout dialogView = new FrameLayout(getContext());
-        dialogView.addView(picker);
+        LinearLayout dialogView = new LinearLayout(getContext());
+        dialogView.addView(pickerTens);
+        dialogView.addView(pickerOnes);
+        dialogView.setLayoutDirection(LinearLayout.HORIZONTAL);
+        dialogView.setGravity(Gravity.CENTER);
 
         return dialogView;
     }
@@ -50,17 +62,24 @@ public class NumberPickerPreference extends DialogPreference {
     @Override
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
-        picker.setMinValue(MIN_VALUE);
-        picker.setMaxValue(MAX_VALUE);
-        picker.setWrapSelectorWheel(WRAP_SELECTOR_WHEEL);
-        picker.setValue(getValue());
+        pickerTens.setMinValue(0);
+        pickerTens.setMaxValue(2);
+        pickerTens.setWrapSelectorWheel(false);
+        pickerTens.setValue(getValue()/10);
+
+        pickerOnes.setMinValue(0);
+        pickerOnes.setMaxValue(9);
+        pickerOnes.setWrapSelectorWheel(false);
+        pickerOnes.setValue(getValue()%10);
+
     }
 
     @Override
     protected void onDialogClosed(boolean positiveResult) {
         if (positiveResult) {
-            picker.clearFocus();
-            int newValue = picker.getValue();
+            pickerTens.clearFocus();
+            pickerOnes.clearFocus();
+            int newValue = pickerTens.getValue() * 10 + pickerOnes.getValue();
             if (callChangeListener(newValue)) {
                 setValue(newValue);
             }
