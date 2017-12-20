@@ -63,7 +63,7 @@ public class NumberPickerPreference extends DialogPreference {
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
         pickerTens.setMinValue(0);
-        pickerTens.setMaxValue(2);
+        pickerTens.setMaxValue(5);
         pickerTens.setWrapSelectorWheel(false);
         pickerTens.setValue(getValue()/10);
 
@@ -80,6 +80,9 @@ public class NumberPickerPreference extends DialogPreference {
             pickerTens.clearFocus();
             pickerOnes.clearFocus();
             int newValue = pickerTens.getValue() * 10 + pickerOnes.getValue();
+            if (newValue == 0){
+                return;
+            }
             if (callChangeListener(newValue)) {
                 setValue(newValue);
             }
