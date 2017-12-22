@@ -97,7 +97,7 @@ public class WeatherFragmentDarkSky extends WeatherFragment {
         try{
             DateFormat df = DateFormat.getDateTimeInstance();
             r.put("lastU", df.format(new Date(currentWeather.getLong("time")*1000)));
-            lastUpdatedMillis = currentWeather.getLong("time")*1000;
+
         }catch(JSONException e){
             r.put("lastU", "");
         }
@@ -122,6 +122,11 @@ public class WeatherFragmentDarkSky extends WeatherFragment {
             r.put("iconID",(int)getActivity().getResources().getIdentifier(currentWeather.getString("icon").replaceAll("-","_"),"drawable",getContext().getPackageName()));
         }catch(JSONException e){
             r.put("iconID",0);
+        }
+        try{
+            lastUpdatedMillis = currentWeather.getLong("time")*1000;
+        }catch(JSONException e){
+            lastUpdatedMillis = 0;
         }
         return r;
     }

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -138,6 +139,15 @@ public class WeatherFragment extends Fragment {
     protected void renderWeather(JSONObject response){
         try {
             JSONObject parsedData = parseResponse(response);
+            if (lastUpdatedMillis == 0){
+                handler.post(new Runnable(){
+                    public void run(){
+                        Toast.makeText(getActivity(),
+                                getActivity().getString(R.string.place_not_found),
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
             cityField.setText(parsedData.getString("location"));
             detailsField.setText(parsedData.getString("summary") +
                     "\n" + "Humidity: " + parsedData.getString("humidity") + "%" +
@@ -172,6 +182,9 @@ public class WeatherFragment extends Fragment {
 
 
     public String prettyPrintTimeDif(){
+        if (lastUpdatedMillis == 0){
+            return "NOT UPDATED";
+        }
         long now = new Date().getTime();
         long diff = max(0,now - lastUpdatedMillis);
         int minutesAgo = (int)(diff/60000);
