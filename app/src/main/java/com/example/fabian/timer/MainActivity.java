@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     Ringtone r = null;
     Long timeLeft = null;
     Switch sw = null;
+    final long SHORT_ALARM = 15;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
                     r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                     r.play();
                     if (!sw.isChecked()) {
-                        new CountDownTimer(1000 * 30, 1000) { //Stops the sound after 0.5 minutes (if short alarm)
+                        new CountDownTimer(1000 * SHORT_ALARM, 1000) { //Stops the sound after 0.5 minutes (if short alarm)
                             @Override
                             public void onTick(long millisUntilFinished) {
 
