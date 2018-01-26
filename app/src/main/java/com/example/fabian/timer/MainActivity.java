@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -133,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 if (count!= null){
                     count.cancel();
                     ch.setText("canceled");
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                     return true;
                 }
                 return false;
@@ -168,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
                                 if (r.isPlaying()) {
                                     r.stop();
                                 }
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                             }
                         }.start();
                     }
@@ -177,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
                             if (r.isPlaying()) {
                                 r.stop();
                             }
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                             return true;
                         }
                     });
@@ -185,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }.start();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     @Override
