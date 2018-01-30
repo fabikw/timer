@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
             if (savedInstanceState.containsKey("Time Remaining")){
                 createTimer((int)savedInstanceState.getLong("Time Remaining"));
             }
+            setValues();
             return;
         }
         if (findViewById(R.id.fragment) != null) {
