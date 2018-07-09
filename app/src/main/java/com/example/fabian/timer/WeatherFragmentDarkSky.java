@@ -177,7 +177,7 @@ public class WeatherFragmentDarkSky extends WeatherFragment {
                 return "";
             }else {
                 Address ad = ads.get(0);
-                if (ad.getCountryCode().equals("US")) {
+                if ((ad.getCountryCode() != null && ad.getCountryCode().equals("US")) || (ad.getCountryName() != null && ad.getCountryName().equals("United States"))) {
                     return ad.getLocality() + ", " + ad.getAdminArea();
                 }else {
                     return ad.getLocality() + ", " + ad.getCountryCode();
